@@ -1,6 +1,8 @@
 """
 Denoising autoencoders, single-layer and deep.
 """
+import sys
+
 import numpy as np
 
 
@@ -32,7 +34,10 @@ def load_image_data(filename, filepath=''):
         import pickle
 
     with gzip.open(os.path.join(filepath, filename), 'r') as f:
-        train, valid, test = pickle.load(f, encoding='bytes')
+        if sys.version_info[0] < 3:
+            train, valid, test = pickle.load(f)
+        else:
+            train, valid, test = pickle.load(f, encoding='bytes')
 
     return train, valid, test
 
